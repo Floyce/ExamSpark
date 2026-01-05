@@ -73,7 +73,7 @@ export default function StudyTimer() {
             </div>
 
             <p className="mt-4 text-sm text-gray-500">
-                {mode === 'focus' ? 'Stay locked in, Queen! 👑' : 'Hydrate and stretch! 🧘‍♀️'}
+                {mode === 'focus' ? 'Stay locked in, Queen 👑' : 'Hydrate and stretch 🧘‍♀️'}
             </p>
         </div>
     );

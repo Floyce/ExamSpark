@@ -21,11 +21,11 @@ function App() {
     if (!("Notification" in window)) {
       alert("This browser does not support desktop notification");
     } else if (Notification.permission === "granted") {
-      new Notification("Exam Schedule", { body: "Notifications are enabled! We'll remind you 1 hour before exams." });
+      new Notification("Exam Schedule", { body: "Notifications are enabled Well remind you 1 hour before exams" });
     } else if (Notification.permission !== "denied") {
       Notification.requestPermission().then(function (permission) {
         if (permission === "granted") {
-          new Notification("Exam Schedule", { body: "You're all set! Good luck! 🍀" });
+          new Notification("Exam Schedule", { body: "Youre all set Good luck 🍀" });
         }
       });
     }
@@ -48,7 +48,7 @@ function App() {
           transition={{ delay: 0.3 }}
           className="mt-2 text-lg text-purple-800 font-medium"
         >
-          Stay organized, stay fabulous! 😍
+          Stay organized, stay fabulous 😍
         </motion.p>
       </header>
 

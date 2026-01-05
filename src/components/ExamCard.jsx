@@ -34,16 +34,16 @@ export default function ExamCard({ exam, onToggle, index }) {
             animate="visible"
             whileHover={{ y: -5, boxShadow: '0 10px 25px -5px rgba(236, 72, 153, 0.4)' }}
             className={`relative p-6 rounded-2xl border transition-all duration-300 ${exam.completed
-                    ? 'bg-green-50 border-green-200 opacity-80'
-                    : isToday
-                        ? 'glass-panel border-pink-400 ring-2 ring-pink-400 ring-opacity-50 shadow-[0_0_20px_rgba(236,72,153,0.3)]'
-                        : 'glass-panel border-white/50'
+                ? 'bg-green-50 border-green-200 opacity-80'
+                : isToday
+                    ? 'glass-panel border-pink-400 ring-2 ring-pink-400 ring-opacity-50 shadow-[0_0_20px_rgba(236,72,153,0.3)]'
+                    : 'glass-panel border-white/50'
                 }`}
         >
             {/* "Today" Badge */}
             {isToday && !exam.completed && (
                 <div className="absolute -top-3 -right-3 bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-bounce">
-                    IT'S GO TIME! 
+                    ITS GO TIME
                 </div>
             )}
 
