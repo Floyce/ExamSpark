@@ -1,8 +1,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FaPlay, FaPause, FaRedo, FaCoffee } from 'react-icons/fa';
+import { FaPlay, FaPause, FaRedo, FaCoffee, FaVolumeUp } from 'react-icons/fa';
 import confetti from 'canvas-confetti';
+
+const WARNING_SOUND_URL = 'https://cdn.pixabay.com/audio/2022/03/24/audio_c8c2a9a528.mp3';
 
 export default function StudyTimer() {
     const [timeLeft, setTimeLeft] = useState(25 * 60);
@@ -13,7 +15,13 @@ export default function StudyTimer() {
         let interval = null;
         if (isActive && timeLeft > 0) {
             interval = setInterval(() => {
-                setTimeLeft(timeLeft - 1);
+                setTimeLeft((prev) => {
+                    const next = prev - 1;
+                    if (next === 10 && mode === 'focus') {
+                        new Audio(WARNING_SOUND_URL).play().catch(e => console.log('Audio blocked'));
+                    }
+                    return next;
+                });
             }, 1000);
         } else if (timeLeft === 0) {
             setIsActive(false);
@@ -47,6 +55,10 @@ export default function StudyTimer() {
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
 
+    const playTestSound = () => {
+        new Audio(WARNING_SOUND_URL).play().catch(e => console.log('Audio blocked', e));
+    };
+
     return (
         <div className="glass-panel p-6 text-center">
             <h3 className="text-xl font-bold text-gray-700 mb-4 flex items-center justify-center gap-2">
@@ -57,7 +69,14 @@ export default function StudyTimer() {
                 {formatTime(timeLeft)}
             </div>
 
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-center gap-4 items-center">
+                <button
+                    onClick={playTestSound}
+                    className="text-pink-400 hover:text-pink-600 p-2 transition"
+                    title="Test Warning Sound"
+                >
+                    <FaVolumeUp />
+                </button>
                 <button
                     onClick={toggleTimer}
                     className="bg-purple-600 text-white p-4 rounded-full hover:bg-purple-700 transition shadow-lg"

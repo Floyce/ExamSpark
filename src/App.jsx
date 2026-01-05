@@ -5,6 +5,8 @@ import ExamCard from './components/ExamCard';
 import StatsBoard from './components/StatsBoard';
 import HypeSection from './components/HypeSection';
 import StudyTimer from './components/StudyTimer';
+import ThemeToggle from './components/ThemeToggle';
+import { ThemeProvider } from './context/ThemeContext';
 import { motion } from 'framer-motion';
 import { FaBell } from 'react-icons/fa';
 
@@ -32,74 +34,79 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 pb-20">
-      <header className="mb-8 text-center pt-8">
-        <motion.h1
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="text-4xl md:text-5xl font-extrabold pb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500 drop-shadow-sm"
-          style={{ backgroundImage: 'linear-gradient(to right, #7e22ce, #ec4899)' }}
-        >
-          Exam Schedule 2026🌸
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-2 text-lg text-purple-800 font-medium"
-        >
-          Stay organized, stay fabulous 😍
-        </motion.p>
-      </header>
-
-      <main className="max-w-3xl mx-auto space-y-8">
-        {/* Hype Section */}
-        {/* Hype & Timer Section */}
-        <section className="grid md:grid-cols-2 gap-6">
-          <HypeSection remaining={stats.remaining} />
-          <StudyTimer />
-        </section>
-
-        {/* Stats Board */}
-        <section>
-          <StatsBoard stats={stats} />
-        </section>
-
-        <section className="flex justify-center">
-          <button
-            onClick={requestNotification}
-            className="flex items-center gap-2 text-sm text-purple-600 hover:text-purple-800 bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-full transition"
+    <ThemeProvider>
+      <div className="min-h-screen p-4 md:p-8 pb-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+        <header className="mb-8 text-center pt-8 relative">
+          <div className="absolute right-0 top-0 pt-4 pr-4">
+            <ThemeToggle />
+          </div>
+          <motion.h1
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="text-4xl md:text-5xl font-extrabold pb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500 drop-shadow-sm"
+            style={{ backgroundImage: 'linear-gradient(to right, #7e22ce, #ec4899)' }}
           >
-            <FaBell /> Enable Exam Reminders
-          </button>
-        </section>
+            Exam Schedule 2026🌸
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mt-2 text-lg text-purple-800 dark:text-purple-300 font-medium"
+          >
+            Stay organized, stay fabulous 😍
+          </motion.p>
+        </header>
 
-        {/* Exam List */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-700">Your Timeline</h2>
-            <span className="text-sm bg-pink-100 text-pink-600 px-3 py-1 rounded-full font-semibold">
-              {stats.remaining} to go!
-            </span>
-          </div>
+        <main className="max-w-3xl mx-auto space-y-8">
+          {/* Hype Section */}
+          {/* Hype & Timer Section */}
+          <section className="grid md:grid-cols-2 gap-6">
+            <HypeSection remaining={stats.remaining} />
+            <StudyTimer />
+          </section>
 
-          <div className="grid gap-4">
-            {exams.map((exam, index) => (
-              <ExamCard
-                key={exam.id}
-                exam={exam}
-                onToggle={toggleExam}
-                index={index}
-              />
-            ))}
-          </div>
-        </section>
-      </main>
+          {/* Stats Board */}
+          <section>
+            <StatsBoard stats={stats} />
+          </section>
 
-      <footer className="mt-12 text-center text-gray-500 text-sm">
-        <p>You are capable of amazing things. </p>
-      </footer>
-    </div>
+          <section className="flex justify-center">
+            <button
+              onClick={requestNotification}
+              className="flex items-center gap-2 text-sm text-purple-600 hover:text-purple-800 bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-full transition"
+            >
+              <FaBell /> Enable Exam Reminders
+            </button>
+          </section>
+
+          {/* Exam List */}
+          <section className="space-y-4">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-700 dark:text-gray-200">Your Timeline</h2>
+              <span className="text-sm bg-pink-100 text-pink-600 px-3 py-1 rounded-full font-semibold">
+                {stats.remaining} to go!
+              </span>
+            </div>
+
+            <div className="grid gap-4">
+              {exams.map((exam, index) => (
+                <ExamCard
+                  key={exam.id}
+                  exam={exam}
+                  onToggle={toggleExam}
+                  index={index}
+                />
+              ))}
+            </div>
+          </section>
+        </main>
+
+        <footer className="mt-12 text-center text-gray-500 dark:text-gray-400 text-sm">
+          <p>You are capable of amazing things. </p>
+        </footer>
+      </div>
+    </ThemeProvider>
   )
 }
 
