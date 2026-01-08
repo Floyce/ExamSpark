@@ -9,15 +9,44 @@ import ThemeToggle from './components/ThemeToggle';
 import { ThemeProvider } from './context/ThemeContext';
 import { motion } from 'framer-motion';
 import { FaBell } from 'react-icons/fa';
+import AddTask from './components/AddTask';
+import { parseTimeRange } from './utils/timeUtils';
 
 function App() {
-  const { exams, stats, toggleExam } = useExams();
+  const { exams, stats, toggleExam, addExam } = useExams();
   const [ticker, setTicker] = useState(new Date());
+  const [currentTask, setCurrentTask] = useState(null);
+  const [acknowledgedTaskId, setAcknowledgedTaskId] = useState(null);
+  const [isAllDoneToday, setIsAllDoneToday] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setTicker(new Date()), 60000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const now = new Date();
+    // Check if there are tasks for today
+    const todayStr = now.toISOString().split('T')[0];
+    const todaysTasks = exams.filter(exam => exam.date === todayStr);
+
+    // Check if all of today's tasks are completed
+    if (todaysTasks.length > 0) {
+      const allCompleted = todaysTasks.every(t => t.completed);
+      setIsAllDoneToday(allCompleted);
+    } else {
+      setIsAllDoneToday(false);
+    }
+
+    // Find a task that is happening "now"
+    const active = exams.find(exam => {
+      if (exam.completed) return false;
+      const range = parseTimeRange(exam.date, exam.time);
+      if (!range) return false;
+      return now >= range.start && now <= range.end;
+    });
+    setCurrentTask(active || null);
+  }, [ticker, exams]);
 
   const requestNotification = () => {
     if (!("Notification" in window)) {
@@ -46,7 +75,7 @@ function App() {
             className="text-4xl md:text-5xl font-extrabold pb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500 drop-shadow-sm"
             style={{ backgroundImage: 'linear-gradient(to right, #7e22ce, #ec4899)' }}
           >
-            Exam Schedule 2026🌸
+            Shitandi's Planner🌸
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -62,7 +91,13 @@ function App() {
           {/* Hype Section */}
           {/* Hype & Timer Section */}
           <section className="grid md:grid-cols-2 gap-6">
-            <HypeSection remaining={stats.remaining} />
+            <HypeSection
+              remaining={stats.remaining}
+              currentTask={currentTask}
+              isAcknowledged={currentTask && acknowledgedTaskId === currentTask.id}
+              onCheckIn={(id) => setAcknowledgedTaskId(id)}
+              isAllDoneToday={isAllDoneToday}
+            />
             <StudyTimer />
           </section>
 
@@ -105,6 +140,8 @@ function App() {
         <footer className="mt-12 text-center text-gray-500 dark:text-gray-400 text-sm">
           <p>You are capable of amazing things. </p>
         </footer>
+
+        <AddTask onAdd={addExam} existingTasks={exams} />
       </div>
     </ThemeProvider>
   )

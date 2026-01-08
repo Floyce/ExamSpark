@@ -4,9 +4,9 @@ export const exams = [
     id: 'cit417',
     code: 'CIT 417',
     title: 'Data Driven Websites',
-    date: '2026-01-08', // Converted 8th to full date (assuming Jan 2026 based on context of 'this month')
+    date: '2026-01-08',
     day: 'Wednesday',
-    time: '3:00 PM - 6:00 PM',
+    time: '12:00 PM - 3:00 PM',
     venue: 'TB5',
     icon: 'FaDatabase',
     completed: false
@@ -45,25 +45,25 @@ export const exams = [
     completed: false
   },
   {
+    id: 'bbe401',
+    code: 'BBE 401',
+    title: 'Entrepreneurship & Small Business Management',
+    date: '2026-01-13',
+    day: 'Tuesday',
+    time: '12:00 PM - 3:00 PM',
+    venue: 'NL16',
+    icon: 'FaLightbulb',
+    completed: false
+  },
+  {
     id: 'cit423',
     code: 'CIT 423',
     title: 'IT Project Management',
     date: '2026-01-13',
     day: 'Tuesday',
-    time: '12:00 PM - 3:00 PM',
+    time: '3:00 PM - 6:00 PM',
     venue: 'TB2',
     icon: 'FaTasks',
-    completed: false
-  },
-  {
-    id: 'bbe401',
-    code: 'BBE 401',
-    title: 'Entrepreneurship & Small Business Management',
-    date: '2026-01-14',
-    day: 'Wednesday',
-    time: '12:00 PM - 3:00 PM',
-    venue: 'NL16',
-    icon: 'FaLightbulb',
     completed: false
   },
   {

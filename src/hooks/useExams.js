@@ -35,5 +35,9 @@ export function useExams() {
         ));
     };
 
-    return { exams, stats, toggleExam };
+    const addExam = (newExam) => {
+        setExams(prev => [...prev, newExam]);
+    };
+
+    return { exams, stats, toggleExam, addExam };
 }
