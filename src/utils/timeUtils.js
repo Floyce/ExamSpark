@@ -1,9 +1,8 @@
 export const parseTimeRange = (dateStr, timeRangeStr) => {
     if (!timeRangeStr || timeRangeStr === 'All Day') {
-        const start = new Date(dateStr);
-        start.setHours(0, 0, 0, 0);
-        const end = new Date(dateStr);
-        end.setHours(23, 59, 59, 999);
+        const [y, m, d] = dateStr.split('-').map(Number);
+        const start = new Date(y, m - 1, d, 0, 0, 0, 0);
+        const end = new Date(y, m - 1, d, 23, 59, 59, 999);
         return { start, end };
     }
 
@@ -18,8 +17,8 @@ export const parseTimeRange = (dateStr, timeRangeStr) => {
         if (period === 'PM' && hours !== 12) hours += 12;
         if (period === 'AM' && hours === 12) hours = 0;
 
-        const date = new Date(dateStr);
-        date.setHours(hours, minutes, 0, 0);
+        const [y, m, d] = dateStr.split('-').map(Number);
+        const date = new Date(y, m - 1, d, hours, minutes, 0, 0);
         return date;
     };
 
